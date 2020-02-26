@@ -4,7 +4,7 @@
 
 <head>
   
-  <title>Leon.blog</title>
+  <title>java中的GC回收 - Leon.blog</title>
   <meta charset="UTF-8">
   <meta name="description" content="私人博客记录学习经历以及技术理解">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
@@ -12,18 +12,21 @@
   
 
   <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/zhouhaowen1998/zhouhaowen1998.github.io@v1.5.6/lib/img/头像.jpg" type="image/jpg" />
-  <meta name="description" content="私人博客记录学习经历以及技术理解">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Leon.blog">
-<meta property="og:url" content="http://zhouhaowen1998.github.io/index.html">
+  <meta name="description" content="最近准备求职，所以把JAVA一些基础部分从头捞出来复习，所以就大概的网上搜上整理了一些资料。相对于C和C++ Java中的有自带的GC(垃圾回收)机制，不用每次自己手动去调用函数去释放空间。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java中的GC回收">
+<meta property="og:url" content="http://zhouhaowen1998.github.io/2020/02/26/java%E4%B8%AD%E7%9A%84GC%E5%9B%9E%E6%94%B6/index.html">
 <meta property="og:site_name" content="Leon.blog">
-<meta property="og:description" content="私人博客记录学习经历以及技术理解">
+<meta property="og:description" content="最近准备求职，所以把JAVA一些基础部分从头捞出来复习，所以就大概的网上搜上整理了一些资料。相对于C和C++ Java中的有自带的GC(垃圾回收)机制，不用每次自己手动去调用函数去释放空间。">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-02-26T14:20:35.000Z">
+<meta property="article:modified_time" content="2020-02-26T14:54:34.713Z">
 <meta property="article:author" content="周浩文">
+<meta property="article:tag" content="JAVA基础">
 <meta name="twitter:card" content="summary">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/gh/nexmoe/nexmoe.github.io@latest/css/style.css,npm/highlight.js@9.15.8/styles/atom-one-dark.css,gh/nexmoe/nexmoe.github.io@latest/lib/mdui_043tiny/css/mdui.css,gh/nexmoe/nexmoe.github.io@latest/lib/iconfont/iconfont.css" crossorigin>
   
-  <!--<link rel="stylesheet" href="/css/style.css?v=1582728887331">-->
+  <!--<link rel="stylesheet" href="/css/style.css?v=1582728887292">-->
 
    
     <style>
@@ -170,62 +173,87 @@
   </div>
   <div id="nexmoe-content">
     <div class="nexmoe-primary">
-        <section class="nexmoe-posts">
-    
-    <div class="nexmoe-post">
-        <a href="/2020/02/26/java%E4%B8%AD%E7%9A%84GC%E5%9B%9E%E6%94%B6/">
-            
-                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 66.66666666666666%;"> 
-                    <img data-src="https://cdn.jsdelivr.net/gh/zhouhaowen1998/zhouhaowen1998.github.io@v1.5.6/lib/img/美景4.jpg" data-sizes="auto" alt="java中的GC回收" class="lazyload">
-                    <h1>java中的GC回收</h1>
-                </div>
-            
-        </a>
+        <div class="nexmoe-post">
+  
+      <div class="nexmoe-post-cover" style="padding-bottom: 66.66666666666666%;"> 
+          <img data-src="https://cdn.jsdelivr.net/gh/zhouhaowen1998/zhouhaowen1998.github.io@v1.5.6/lib/img/美景4.jpg" data-sizes="auto" alt="java中的GC回收" class="lazyload">
+          <h1>java中的GC回收</h1>
+      </div>
+  
+  
+  <div class="nexmoe-post-meta" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2020年02月26日</a>
+    <a><i class="nexmoefont icon-areachart"></i>1,055 字</a>
+    <a><i class="nexmoefont icon-time-circle-fill"></i>大概 4 分钟</a>
+</div>
 
-        <div class="nexmoe-post-meta">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2020年02月26日</a>
-            <a><i class="nexmoefont icon-areachart"></i>1,055 字</a>
-            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 4 分钟</a>
+  <div class="nexmoe-post-right">
+    
+      <div class="nexmoe-fixed">
+        <div class="nexmoe-valign">
+            <div class="nexmoe-toc">
+                
+            </div>
         </div>
-
-        <article>
-            
-                <p>最近准备求职，所以把JAVA一些基础部分从头捞出来复习，所以就大概的网上搜上整理了一些资料。<br>相对于C和C++ Java中的有自带的GC(垃圾回收)机制，不用每次自己手动去调用函数去释放空间。<br>
-            
-        </article>
-    </div>
+      </div>
     
-    <div class="nexmoe-post">
-        <a href="/2020/02/25/%E5%85%B3%E4%BA%8E%E6%AD%A4%E5%8D%9A%E5%AE%A2/">
-            
-                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 66.66666666666666%;"> 
-                    <img data-src="https://cdn.jsdelivr.net/gh/zhouhaowen1998/zhouhaowen1998.github.io@v1.5.6/lib/img/美景4.jpg" data-sizes="auto" alt="关于此博客" class="lazyload">
-                    <h1>关于此博客</h1>
-                </div>
-            
-        </a>
+  </div>
 
-        <div class="nexmoe-post-meta">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2020年02月25日</a>
-            <a><i class="nexmoefont icon-areachart"></i>117 字</a>
-            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
-        </div>
+  <article>
+    <p>最近准备求职，所以把JAVA一些基础部分从头捞出来复习，所以就大概的网上搜上整理了一些资料。<br>相对于C和C++ Java中的有自带的GC(垃圾回收)机制，不用每次自己手动去调用函数去释放空间。<br><a id="more"></a></p>
+<ol>
+<li>java中GC回收机制<br>GC（Garbage collection）是Java垃圾回收机制，用于将内存中无用对象进行回收处理。<br>基本原理：将内存中不再被使用的对象进行回收，GC中用于回收的方法称为收集器，由于GC需要消耗一些资源和时间，Java在对对象的生命周期特征进行分析后，按照新生代、旧生代的方式来对对象进行收集，以尽可能的缩短GC对应用造成的暂停<br>哪些内存需要回收？<br>Java堆和方法区<br>运行时数据区的程序计数器、虚拟机栈、本地方法栈都随线程的产生而产生、消灭而消灭。每一个栈帧分配多少内存编译时可知，因此这些区域不需要回收。此外，在堆中，尤其新生代，一次垃圾回收可以回收70%-95%的空间，而方法区的效率远低于此。<br>怎么回收？<br>通过垃圾处理器<br>（1）对新生代的对象的收集称为minor GC；<br>（2）对旧生代的对象的收集称为Full GC；<br>（3）程序中主动调用System.gc()强制执行的GC为Full GC。</li>
+</ol>
+<p>何时回收？<br>不同的对象引用类型， GC会采用不同的方法进行回收，JVM对象的引用分为了四种类型：<br>（1）强引用：默认情况下，对象采用的均为强引用（这个对象的实例没有其他对象引用，GC时才会被回收）<br>（2）软引用：软引用是Java中提供的一种比较适合于缓存场景的应用（只有在内存不够用的情况下才会被GC）<br>（3）弱引用：在GC时一定会被GC回收<br>（4）虚引用：由于虚引用只是用来得知对象是否被GC</p>
+<p>垃圾收集算法<br>最基础的算法：<br>分标记和清除两个阶段：首先标记出所需要回收的对象，在标记完成后统一回收所有被标记的对象。<br>不足：效率问题，标记和清除过程都效率不高；空间问题，标记清除之后会产生大量不连续的内存碎片（类似于我们电脑的磁盘碎片），空间碎片太多导致需要分配大对象时无法找到足够的连续内存而不得不提前触发另一次垃圾回收动作。<br>复制算法：<br>为了解决效率问题，出现了“复制”算法，他将可用内存按容量划分为大小相等的两块，每次只需要使用其中一块。当一块内存用完了，将还存活的对象复制到另一块上面，然后再把刚刚用完的内存空间一次清理掉。这样就解决了内存碎片问题，但是代价就是可以用内容就缩小为原来的一半。<br>标记-整理算法：<br>复制算法在对象存活率较高时就会进行频繁的复制操作，效率将降低。因此又有了标记-整理算法，标记过程同标记-清除算法，但是在后续步骤不是直接对对象进行清理，而是让所有存活的对象都向一侧移动，然后直接清理掉端边界以外的内存。<br>分代收集算法：当前商业虚拟机的GC都是采用分代收集算法，这种算法并没有什么新的思想，而是根据对象存活周期的不同将堆分为：新生代和老年代，方法区称为永久代（在新的版本中已经将永久代废弃，引入了元空间的概念，永久代使用的是JVM内存而元空间直接使用物理内存）。这样就可以根据各个年代的特点采用不同的收集算法。</p>
 
-        <article>
-            
-                <p>空闲之余利用nexo和github搭建出来这个博客，没有想象中的那么难，但也还有许多地方需要慢慢探索。今后这个博客就用来记录自己的学习过程以及学习中对技术知识点的理解和分析，以便后期对知识的复习和巩固，同时也希望这个微博中的文章能够给来过的朋友带来一些帮助和便利!</p>
+  </article>
 
-            
-        </article>
-    </div>
+  <div class="nexmoe-post-meta">
     
+        <a class="nexmoefont icon-appstore-fill -link" href="/categories/%E9%BB%98%E8%AE%A4%E5%88%86%E7%B1%BB/">默认分类</a>
+    
+    
+        <a class="nexmoefont icon-tag-fill -link" href="/tags/JAVA%E5%9F%BA%E7%A1%80/" rel="tag">JAVA基础</a>
+    
+</div>
+
+  <div class="nexmoe-post-footer">
+    
+      
+  <div class="nexmoe-post-copyright">
+    <strong>本文作者：</strong>周浩文<br>
+    <strong>本文链接：</strong><a href="http://zhouhaowen1998.github.io/2020/02/26/java%E4%B8%AD%E7%9A%84GC%E5%9B%9E%E6%94%B6/" title="http:&#x2F;&#x2F;zhouhaowen1998.github.io&#x2F;2020&#x2F;02&#x2F;26&#x2F;java%E4%B8%AD%E7%9A%84GC%E5%9B%9E%E6%94%B6&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;zhouhaowen1998.github.io&#x2F;2020&#x2F;02&#x2F;26&#x2F;java%E4%B8%AD%E7%9A%84GC%E5%9B%9E%E6%94%B6&#x2F;</a><br>
+    
+      <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+    
+  </div>
+
+
+    
+    <section class="nexmoe-comment">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.min.css">
+<div id="gitalk"></div>
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: '80b2453b6d5f37ad6225',
+        clientSecret: '43e99fa852795c9a7b3eb924b2558c64b84bbdeb',
+        id: window.location.pathname,
+        repo: 'nexmoe.github.io',
+        owner: 'nexmoe',
+        admin: 'nexmoe'
+    })
+    gitalk.render('gitalk')
+</script>
 </section>
-
+  </div>
+</div>
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js,gh/nexmoe/nexmoe.github.io@latest/js/app.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
-<!--<script src="/js/app.js?v=1582728887333"></script>-->
+<!--<script src="/js/app.js?v=1582728887296"></script>-->
 
 
     <script src="https://cdn.jsdelivr.net/gh/xtaodada/xtaodada.github.io@0.0.2/copy.js"></script>
