@@ -2,6 +2,10 @@ $gutter  = 25px
 $radius = 15px
 @import ‘donate’
 themes/nexmoe/layout/post.ejs
+  <% if (theme.donate){ %>
+    <%- partial('donate') %>
+  <% } %>
+
 *
 *::after 
 *::before {

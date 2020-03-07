@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zhouhaowen1998.github.io/"/>
-  <updated>2020-03-07T07:16:45.900Z</updated>
+  <updated>2020-03-07T07:57:54.468Z</updated>
   <id>http://zhouhaowen1998.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://zhouhaowen1998.github.io/2020/03/07/%E7%94%A8JAVA%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E6%A0%88/"/>
     <id>http://zhouhaowen1998.github.io/2020/03/07/用JAVA实现一个简单的栈/</id>
     <published>2020-03-07T06:31:46.000Z</published>
-    <updated>2020-03-07T07:16:45.900Z</updated>
+    <updated>2020-03-07T07:57:54.468Z</updated>
     
     <content type="html"><![CDATA[<p>Java用数组实现一个栈结构<br>如果之前没有手写过的话可能很晕，没错我就是这么晕，后来再仔细想想这个代码真的感觉自己面试尤其是算法题还是紧张，紧张到大脑短路，大脑一团浆糊但是自己的所谓结论就张口就来，面试官不怕你说错但是不希望看到你不经过大脑认真考虑瞎说瞎猜，特此记录一下这个面试题</p><a id="more"></a><p>下面就直接贴代码了！</p><pre><code>public class Stack&lt;E&gt; {    private int max_size = 16;//栈容量(最大值)    private int top = -1;//栈顶指针    private Object[] data;//栈数据    private double opcatity = 0.75;//负载因子    public Stack(){        this(10);    }    public Stack(int size){        if(size&lt;0){            throw new IllegalArgumentException(&quot;栈的初始大小不能小于0&quot;+size);        }        if(size&gt;max_size){            max_size = max_size + (int)(max_size*opcatity);        }        max_size = size;        data = new Object[max_size];    }    public E push(E e){        if(top&gt;this.max_size-1){            throw new RuntimeException(&quot;栈已满&quot;);        }        E obj = e;        data[++top] = e;        return obj;    }    public E pop(){        if(top==-1){            throw new RuntimeException(&quot;栈为空&quot;);        }        return (E) data[top--];    }    public E search(int index){        if(index&gt;this.max_size-1||index&lt;0){            throw new RuntimeException(&quot;查找不在范围之内&quot;);        }        int i = 0;        while(index!=i){            i++;        }        return (E) data[i];    }</code></pre><p>然后我们来测试一下：</p><pre><code>public class Main {    public static void main(String[] args) {        Stack stack = new Stack(10);         for(int i=0;i&lt;10;i++)              {                   stack.push(i);              }           for(int i=0;i&lt;10;i++){             System.out.println(stack.pop());         }    }    }</code></pre><p>结果：</p><p>9<br>8<br>7<br>6<br>5<br>4<br>3<br>2<br>1<br>0</p>]]></content>
     
@@ -34,7 +34,7 @@
       <category term="技术" scheme="http://zhouhaowen1998.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
     
     
-      <category term="Java基础" scheme="http://zhouhaowen1998.github.io/tags/Java%E5%9F%BA%E7%A1%80/"/>
+      <category term="JAVA基础" scheme="http://zhouhaowen1998.github.io/tags/JAVA%E5%9F%BA%E7%A1%80/"/>
     
   </entry>
   
@@ -66,7 +66,7 @@
     <link href="http://zhouhaowen1998.github.io/2020/02/28/%E5%B8%B8%E7%94%A8%E7%9A%84%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%85%A5%E9%97%A8%E6%80%BB%E7%BB%93/"/>
     <id>http://zhouhaowen1998.github.io/2020/02/28/常用的消息中间件入门总结/</id>
     <published>2020-02-28T13:26:41.000Z</published>
-    <updated>2020-03-04T04:08:44.252Z</updated>
+    <updated>2020-03-07T07:57:49.263Z</updated>
     
     <content type="html"><![CDATA[<p>常用的一些消息中间件的入门总结</p><p>MQ主要核心功能是用来处理解耦、异步 、削峰。</p><p>而添加MQ以后也会出现一些缺点：<br>    系统可用性降低 ：当MQ出现问题的时候，相关联系统同时也无法正常接收消息<br>    系统复杂性提高 ：消息重复消费、消息丢失、消息传递的顺序性被打乱<br>    一致性问题      ：数据在传递到MQ后，可能没有发出（或者下流的系统没有接收到）导致数据不一致。 </p><a id="more"></a><p>通过网上一些系统的学习和入门博客，目前大概主流的消息中间件有Activemq rabbitmq rocketmq 以及kafka。<br>下面就是对这些中间件的相关特点进行总结比较<br>ps：这里只是单纯总结，没有实际代码，如果完全没有使用过这些东西，可以去百度搜索入门教程看看。</p><p>下面是对Activemq rabbitmq rocketmq 以及kafka之前的对比</p><table><thead><tr><th style="text-align:left">特性</th><th style="text-align:left">ActiveMQ</th><th style="text-align:left">RabbitMQ</th><th style="text-align:left">RocketMq</th><th style="text-align:left">Kafka</th></tr></thead><tbody><tr><td style="text-align:left">单机吞吐量</td><td style="text-align:left">万级，<br>吞吐量比RocketMQ 、<br> Kafka低了一个数量级</td><td style="text-align:left">万级，<br>吞吐量比RocketMQ、<br> Kafka低了一个数量级</td><td style="text-align:left">十万级，<br>也是一个可以支撑高吞吐的MQ</td><td style="text-align:left">十万级，<br>kafka最大优点就是吞吐量高<br>一般配合大数据类系统机型数据计算和日志采集</td></tr><tr><td style="text-align:left">Topic 数量对吞<br>吐量的影响</td><td style="text-align:left"></td><td style="text-align:left"></td><td style="text-align:left">可以到达几百个，<br>几千个的级别的时候吞吐量时<br>会有较小幅度的下降<br>在同等机器下，<br>可一支撑大量topic</td><td style="text-align:left">从几十个倒带几百个的时候，<br>吞吐量会大幅度下降</td></tr><tr><td style="text-align:left">时效性</td><td style="text-align:left">ms级</td><td style="text-align:left">微秒级，<br>这是最大特点</td><td style="text-align:left">ms级</td><td style="text-align:left">ms级以内</td></tr><tr><td style="text-align:left">可用性</td><td style="text-align:left">高,<br>基于主从架构实现高可用性</td><td style="text-align:left">高,<br>基于主从架构实现高可用性</td><td style="text-align:left">非常高，<br>分布式架构</td><td style="text-align:left">非常高，kafka是分布式的，<br>一个数据多个副本，<br>少数极其宕机，<br>不会丢失数据，<br>不会导致不可用</td></tr><tr><td style="text-align:left">消息可靠性</td><td style="text-align:left">有较低概率丢失数据</td><td style="text-align:left">一般不丢</td><td style="text-align:left">参数优化可以做到0丢失</td><td style="text-align:left">参数优化可以做到0丢失</td></tr><tr><td style="text-align:left">功能支持</td><td style="text-align:left">MQ领域的功能极其完备</td><td style="text-align:left">基于erlang开发，<br>并发能力强，<br>性能好，<br>延时低</td><td style="text-align:left">比较完善，<br>分布式且扩展性好</td><td style="text-align:left">功能较为简单，<br>主要支持简单的MQ功能，<br>在大数据领域的实时计算、<br>日志采集被大规模使用<br>且是事实上的标准</td></tr><tr><td style="text-align:left">优劣势总结</td><td style="text-align:left">技术成熟，功能强大，<br>大量公司和项目都有应用。<br>偶尔会出现较低概率丢失消息。<br>社区现在对5.X维护越来越少，<br>主要是基于解耦和异步来使用，<br>一般大规模吞吐的场景中很少使用</td><td style="text-align:left">Erlang语言开发，性能好，<br>延时低而且开源提供管理界面很好，<br>社区相对比较活跃，<br>几乎每个月都发布几个版本<br>问题也显而易见的，吞吐量比较低，<br>因为他们做的实现机制比较重，<br>Erlang开发在国内没有几个公司<br>很少有实力做源码级别的研究，<br>基本就只能依赖开源社区的维护和修复BUG</td><td style="text-align:left">接口简单应用，<br>日处理量可以上百亿之多，<br>可以做到大规模吞吐，<br>性能非常好分布式扩展也很方便，<br>社区比较比较活跃，<br>可靠性和可用性都是ok的，<br>还能支持大规模的topic数量，<br>支持复杂的MQ业务场景<br>由阿里用JAVA开发，能够自己阅读和掌控<br>但是接口不是按照标椎的JMS规范走的，<br>有些系统迁移需要修改大量代码</td><td style="text-align:left">提供超高的吞吐量和ms级别的延迟，<br>极高的可用性以及可靠性<br>而且分布式可以任意拓展<br>同时kafka最好支撑较少的topic数量<br>保证超高吞吐量<br>缺点就是消息可能重复消费，<br>对数据准确性会造成轻微影响，<br>但以大数据领域中这点影响可以忽略<br>这个特性天然用大数据实时计算和<br>日志收集</td></tr></tbody></table><p>综上所述<br>一般业务引入MQ 大家都用ActiveMQ但是现在现在不建议推荐。<br>后来大家开始用RabbitMQ比较稳定的支持，活跃度也行，中小型公司使用不错。<br>RocketMQ也不错但是要考虑社区突然黄掉的风险，公司对自己技术实力有绝对自信的 能够对RocketMQ有一定研发和掌控的 推荐用RocketMQ。<br>所以中小公司技术实力一般的,技术挑战不高的用RabbitMQ是不错选择。<br>大型公司，基础架构研发实力强的话，用RocketMQ是很好选择。<br>如果是大数据领域的实时计算、日志采集的话,用kafka是业内标准！</p>]]></content>
     
@@ -81,9 +81,9 @@
       <category term="技术" scheme="http://zhouhaowen1998.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
     
     
-      <category term="消息中间件" scheme="http://zhouhaowen1998.github.io/tags/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+      <category term="JAVA基础" scheme="http://zhouhaowen1998.github.io/tags/JAVA%E5%9F%BA%E7%A1%80/"/>
     
-      <category term="java基础" scheme="http://zhouhaowen1998.github.io/tags/java%E5%9F%BA%E7%A1%80/"/>
+      <category term="消息中间件" scheme="http://zhouhaowen1998.github.io/tags/%E6%B6%88%E6%81%AF%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
     
   </entry>
   
